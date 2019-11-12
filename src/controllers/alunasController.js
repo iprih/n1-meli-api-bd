@@ -7,8 +7,8 @@ const fs = require('fs');
 exports.get = (req, res) => {
   // console.log(req.url)
   // res.status(200).send(alunas)
-  Alunas.find(function(err, alunas){
-    console.log(alunas)
+  Alunas.find(function(err, alunas){//funcao call back - retorno de documento
+    if (err) res.status(500).send(err)
     res.status(200).send(alunas)
   })
 }
