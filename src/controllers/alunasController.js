@@ -1,9 +1,16 @@
-const alunas = require("../model/alunas.json")
+//const alunas = require("../model/alunas.json")
+
+const Alunas = require("../model/alunas");
+
 const fs = require('fs');
 
 exports.get = (req, res) => {
-  console.log(req.url)
-  res.status(200).send(alunas)
+  // console.log(req.url)
+  // res.status(200).send(alunas)
+  Alunas.find(function(err, alunas){
+    console.log(alunas)
+    res.status(200).send(alunas)
+  })
 }
 
 exports.getById = (req, res) => {

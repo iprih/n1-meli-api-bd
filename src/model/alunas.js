@@ -6,6 +6,13 @@ const AlunasSchema = new mongoose.Schema({
     nasceuEmSp: {type: String},//bollean
     livros:[{
         titulo: String,
-        leu:Boolean
+        leu: String
     }]
 })
+//ex: para consumir devemos chamar como alunas
+const Alunas = mongoose.model('Alunas', AlunasSchema)
+
+module.exports = Alunas
+
+//exemplo de schema com campos obrigatórios
+//var sampleSchema = new Schema({ name: { type: String, required: true } });
