@@ -32,16 +32,22 @@ exports.getBooks = (req, res) => {
   const tituloLivros = livrosLidos.map(livro => livro.titulo)
   res.send(tituloLivros)
 }
+  //const nasceuSp = alunas.filter(aluna => {
+    //console.log(aluna)
+   // return aluna.nasceuEmSp == "true"
+  
+ // const meninasSp = nasceuSp.map(aluna => aluna.nome)
 
 exports.getSp = (req, res) => {
-  const nasceuSp = alunas.filter(aluna => {
-    console.log(aluna)
-    return aluna.nasceuEmSp == "true"
+  Alunas.find({"nasceuEmSp": "true"},(function(err, alunas){
+    if (err) res.status(500).send(err)
+ 
+    res.status(200).send(alunas)
   })
-  const meninasSp = nasceuSp.map(aluna => aluna.nome)
+)}
+  
 
-  res.status(200).send(meninasSp)
-}
+
 
 exports.getAge = (req, res) => {
   const id = req.params.id
