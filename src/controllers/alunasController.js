@@ -196,7 +196,7 @@ Alunas.findById(alunaId, function(err,aluna){//retorna apenas uma aluna conforme
   const livro = req.body;//pega os valores da requisição 
   (aluna.livros).push(livro);// insere os livros da requisição aqui
   
-  alunas.save(function(err){ //aqui ele salva os novos livros mas mantem tudo o que tinha
+  aluna.save(function(err){ //aqui ele salva os novos livros mas mantem tudo o que tinha
     if (err) res.status(500).send(err) // manda erro
     res.status(201).send(aluna)
   })
