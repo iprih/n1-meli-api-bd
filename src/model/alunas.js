@@ -5,6 +5,7 @@ const AlunasSchema = new mongoose.Schema({
     dateOfBirth: {type: String},//date
     nasceuEmSp: {type: String},//bollean
     livros:[{
+        _id:false,
         titulo: String,
         leu: String
 }]},{
