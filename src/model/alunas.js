@@ -7,7 +7,8 @@ const AlunasSchema = new mongoose.Schema({
     livros:[{
         titulo: String,
         leu: String
-    }]
+}]},{
+versionKey: false
 })
 //ex: para consumir devemos chamar como alunas
 const Alunas = mongoose.model('Alunas', AlunasSchema)

@@ -75,6 +75,20 @@ exports.getAge = (req, res) => {
   })
 }  
 
+function calcularIdade(anoDeNasc, mesDeNasc, diaDeNasc) {
+  const now = new Date()
+  const anoAtual = now.getFullYear()
+  const mesAtual = now.getMonth() + 1
+  const hoje = now.getDate()
+
+  let idade = anoAtual - anoDeNasc
+
+  if (mesAtual < mesDeNasc || (mesAtual == mesDeNasc && hoje < diaDeNasc)) {
+    idade -= 1
+  }
+  return idade
+}
+
 /*
 exports.getById = (req, res) => {
   const id = req.params.id
@@ -123,7 +137,7 @@ exports.getAge = (req, res) => {
   const idade = calcularIdade(ano, mes, dia)
   res.status(200).send({ idade })
 }
-*/
+
 
 function calcularIdade(anoDeNasc, mesDeNasc, diaDeNasc) {
   const now = new Date()
@@ -139,6 +153,20 @@ function calcularIdade(anoDeNasc, mesDeNasc, diaDeNasc) {
   return idade
 }
 
+*/
+
+
+exports.post = (req, res) => {
+  let aluna = new Alunas(req.body)
+
+  aluna.save(function(err){
+    if(err) res.status(500).send(err)
+
+    res.status(201).send(aluna)
+
+  })
+}
+/*
 exports.post = (req, res) => { 
   const { nome, dateOfBirth, nasceuEmSp, id, livros } = req.body;
   alunas.push({ nome, dateOfBirth, nasceuEmSp, id, livros });
@@ -152,22 +180,51 @@ exports.post = (req, res) => {
 
   return res.status(201).send(alunas);
 }
+*/
 
-exports.postBooks = (req, res) => {
-  const id = req.params.id
-  const aluna = alunas.find(aluna => aluna.id == id)
-  if (!aluna) {
-    res.send("Nao encontrei essa garota")
+
+exports.postBooks = (req,res) => {
+const alunaId = req.params.id
+
+Alunas.findById(alunaId, function(err,aluna){//retorna apenas uma aluna conforme o id da aluna
+  if (err) return res.status(500).send(err.message)//
+
+  if(!aluna){
+    return res.status(200).send({message: `Infelizmente nao localizei essa garota`})
   }
-  const { titulo, leu } = req.body;
-  alunas[aluna.id - 1].livros.push({ titulo, leu });
   
-  fs.writeFile("./src/model/alunas.json", JSON.stringify(alunas), 'utf8', function (err) {
-    if (err) {
-        return res.status(500).send({ message: err });
-    }
-    console.log("The file was saved!");
-  });
+  const livro = req.body;//pega os valores da requisição 
+  (aluna.livros).push(livro);// insere os livros da requisição aqui
+  
+  alunas.save(function(err){ //aqui ele salva os novos livros mas mantem tudo o que tinha
+    if (err) res.status(500).send(err) // manda erro
+    res.status(201).send(aluna)
+  })
+})}
 
-  res.status(201).send(alunas[aluna.id - 1].livros);
-}
+
+
+// let aluna = new Alunas(req.body)
+// aluna,save(function(err){
+//   if(err) res.status(500).send(err)
+//   res.status(201).send(aluna)
+// })
+
+
+// exports.postBooks = (req, res) => {
+//   const id = req.params.id
+//   const aluna = alunas.find(aluna => aluna.id == id)
+//   if (!aluna) {
+//     res.send("Nao encontrei essa garota")
+//   }
+//   const { titulo, leu } = req.body;
+//   alunas[aluna.id - 1].livros.push({ titulo, leu });
+  
+//   fs.writeFile("./src/model/alunas.json", JSON.stringify(alunas), 'utf8', function (err) {
+//     if (err) {
+//         return res.status(500).send({ message: err });
+//     }
+//     console.log("The file was saved!");
+//   });
+
+//   res.status(201).send(alunas[aluna.id - 1].livros);}
